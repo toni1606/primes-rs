@@ -12,25 +12,31 @@ fn parse_argument() -> Option<u32> {
 	}
 }
 
-fn prime_sieve(max_num: u32) -> Vec<u32> {
-	let mut out: Vec<u32> = Vec::new();
-	for i in 1..max_num {
-		let mut is_prime: bool = true;
-		for  j in 2..((max_num as f64).sqrt() + 1.0) as u32 {
-			if i % j == 0 {
-				is_prime = false;
+// TODO: try converting fors to iterators
+fn start_threads(thread_count: u8, max_num: u32) {
+	let numbers_per_thread = max_num / thread_count as u32;
+
+	let sieve = |min: u32, max: u32, test_limit: u32| -> Vec<u32> {
+		let mut out: Vec<u32> = Vec::new();
+		
+		for i in min..max + 1 {
+			let mut is_prime: bool = true;
+			for j in (2..test_limit) {
+				if i % j == 0 {
+					is_prime = false;
+				}
+			}
+
+			if is_prime {
+				out.push(i);
 			}
 		}
 
-		if is_prime {
-			out.push(i);
-		}
-	}
-
-	out
+		out
+	};
 }
 
 fn main() {
+	start_threads(2, 15);
 	println!("Hello, world!");
-	println!("primes: {:?}", prime_sieve(parse_argument().unwrap()));
 }
