@@ -35,9 +35,10 @@ fn start_threads(thread_count: u8, max_num: u32) {
 		// out
 	};
 
+	let v = Vec::with_capacity(thread_count as usize);
 	let mut min = 1;
 	for i in 0..thread_count {
-		thread::spawn(sieve(min, min + numbers_per_thread, (max_num as f64).sqrt()));
+		v.push(thread::spawn(sieve(min, min + numbers_per_thread, (max_num as f64).sqrt()  as u32 )));
 	}
 }
 
