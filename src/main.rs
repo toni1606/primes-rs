@@ -26,7 +26,7 @@ fn start_threads(thread_count: u8, max_num: u32) -> Vec<Vec<u32>> {
 				let test_limit = (i as f64).sqrt() as u32;
 				let mut is_prime: bool = true;
 
-				if i == 2 {
+				if i == 2 {	
 					out.push(i);
 					continue;
 				} else if i % 2 == 0 {
@@ -57,6 +57,8 @@ fn start_threads(thread_count: u8, max_num: u32) -> Vec<Vec<u32>> {
 
 	b
 }
+
+// TODO: create a function to convert Vec<Vec<u21>> -> Vec<u32>
 
 fn main() {
 	println!("{:?}", start_threads(8, parse_argument().expect("Invalid number entered")));
