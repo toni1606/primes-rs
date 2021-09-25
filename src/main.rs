@@ -12,7 +12,7 @@ fn parse_argument() -> Option<u32> {
 }
 
 // TODO: try converting fors to iterators
-fn start_threads(thread_count: u8, max_num: u32) {
+fn start_threads(thread_count: u8, max_num: u32) -> Vec<Vec<u32>> {
 	let numbers_per_thread = max_num / thread_count as u32;
 	let test_limit = (max_num as f64).sqrt() as u32;
 
@@ -48,7 +48,7 @@ fn start_threads(thread_count: u8, max_num: u32) {
 		b.push(thread.join().unwrap());
 	}
 
-	println!("{:?}", b);
+	b
 }
 
 fn main() {
