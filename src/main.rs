@@ -58,7 +58,6 @@ fn start_threads(thread_count: u8, max_num: u32) -> Vec<u32> {
 	normalise_output(b)
 }
 
-// TODO: create a function to convert Vec<Vec<u21>> -> Vec<u32>
 fn normalise_output(initial_list: Vec<Vec<u32>>) -> Vec<u32> {
 	let mut output_list: Vec<u32> = Vec::new();
 	
@@ -72,6 +71,5 @@ fn normalise_output(initial_list: Vec<Vec<u32>>) -> Vec<u32> {
 }
 
 fn main() {
-	// println!("{:?}", start_threads(8, parse_argument().expect("Invalid number entered")));
-	start_threads(8, parse_argument().expect("Invalid number entered"));
+	println!("{:?}", start_threads(8, parse_argument().expect("Invalid number entered")));
 }
