@@ -11,15 +11,25 @@ fn parse_argument() -> Option<u32> {
 	}
 }
 
-fn start_threads(thread_count: u8, max_num: u32) -> Vec<u32> {
-	let numbers_per_thread = max_num / thread_count as u32;
-	
-	let mut threads = Vec::with_capacity(thread_count as usize);
+fn run(thread_count: u8, max_num: u32) -> Vec<u32> {
+	let thread_handles = start_threads(thread_count, max_num / thread_count as u32);	
+
+	let mut b: Vec<Vec<u32>> = Vec::new();
+
+	for thread in thread_handles {
+		b.push(thread.join().unwrap());
+	}
+
+	normalise_output(b)
+}
+
+fn start_threads(thread_count: u8, numbers_per_thread: u32) -> Vec<thread::JoinHandle<Vec<u32>>> {
+	let mut thread_handles = Vec::with_capacity(thread_count as usize);
 	for i in 0..thread_count {
 		let min = 1 + (numbers_per_thread * i as u32);
 		let max = min + numbers_per_thread;
 		
-		threads.push(thread::spawn( move || {
+		thread_handles.push(thread::spawn( move || {
 			let mut out: Vec<u32> = Vec::new();
 			
 			for i in min..max {
@@ -49,13 +59,7 @@ fn start_threads(thread_count: u8, max_num: u32) -> Vec<u32> {
 		}));
 	}
 
-	let mut b: Vec<Vec<u32>> = Vec::new();
-
-	for thread in threads {
-		b.push(thread.join().unwrap());
-	}
-
-	normalise_output(b)
+	thread_handles
 }
 
 fn normalise_output(initial_list: Vec<Vec<u32>>) -> Vec<u32> {
@@ -71,5 +75,5 @@ fn normalise_output(initial_list: Vec<Vec<u32>>) -> Vec<u32> {
 }
 
 fn main() {
-	println!("{:?}", start_threads(8, parse_argument().expect("Invalid number entered")));
+	println!("{:?}", run(8, parse_argument().expect("Invalid number entered")));
 }
