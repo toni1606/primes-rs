@@ -75,5 +75,5 @@ fn normalise_output(initial_list: Vec<Vec<u32>>) -> Vec<u32> {
 }
 
 fn main() {
-	println!("{:?}", run(8, parse_argument().expect("Invalid number entered")));
+    run(8, parse_argument().expect("Invalid number entered"));
 }
